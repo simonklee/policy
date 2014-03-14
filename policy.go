@@ -21,13 +21,13 @@ import (
 const BufSize = 8 << 5
 
 var (
-	protocolPolicy         = []byte("<policy-file-request/>")
+	protocolPolicy         = []byte("<policy-file-request/>\x00")
 	protocolPolicyResponse = []byte(`<?xml version="1.0"?>
 <cross-domain-policy>
    <allow-access-from domain="*" to-ports="*"/> 
 </cross-domain-policy>`)
 	protocolPing         = []byte("PING")
-	protocolPingResponse = []byte(`+OK\r\n`)
+	protocolPingResponse = []byte("+OK\r\n")
 	Timeout              = time.Second * 10
 )
 
@@ -76,17 +76,17 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	//log.Printf("Read %d bytes", n)
+	log.Printf("Got %+q", buf[:n])
 	var resp []byte
 
-	if bytes.Equal(protocolPolicy, buf[:len(protocolPolicy)]) {
+	if bytes.Equal(protocolPolicy, buf[:n]) {
 		log.Printf("Policy request")
 		resp = protocolPolicyResponse
-	} else if bytes.Equal(protocolPing, buf[:len(protocolPing)]) {
+	} else if bytes.Equal(protocolPing, buf[:n]) {
 		log.Printf("Ping request")
 		resp = protocolPingResponse
 	} else {
-		log.Errorf("Uknown protocol request: %s", string(buf))
+		log.Errorf("Uknown protocol request: %+q", buf[:n])
 		return
 	}
 
