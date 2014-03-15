@@ -63,9 +63,9 @@ func handle(conn net.Conn) {
 	buf := getBuf(BufSize)
 	defer putBuf(buf)
 
-	err := conn.SetReadDeadline(time.Now().Add(Timeout))
+	err := conn.SetDeadline(time.Now().Add(Timeout))
 	if err != nil {
-		log.Errorf("Error setting read deadline on conn: %v", err)
+		log.Errorf("Error setting deadline on conn: %v", err)
 		return
 	}
 
@@ -90,21 +90,12 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	err = conn.SetWriteDeadline(time.Now().Add(Timeout))
-
-	if err != nil {
-		log.Errorf("Error setting write deadline on conn: %v", err)
-		return
-	}
-
 	n, err = conn.Write(resp)
 
 	if err != nil || n != len(resp) {
 		log.Errorf("Error writing to conn: %v", err)
 		return
 	}
-
-	//log.Printf("Wrote %d bytes", n)
 }
 
 var bufPool = make(chan []byte, 64)
