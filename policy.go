@@ -11,6 +11,7 @@ package policy
 
 import (
 	"bytes"
+	"fmt"
 	"net"
 	"time"
 
@@ -18,7 +19,12 @@ import (
 	"github.com/simonz05/util/sig"
 )
 
-const BufSize = 8 << 5
+const (
+	// readBufSize is scaled to fit the largest policy protocol request
+	bufSize = 8 << 2
+	// max bytes allocated = bufSize * poolSize
+	poolSize = 8 << 11
+)
 
 var (
 	protocolPolicy         = []byte("<policy-file-request/>\x00")
@@ -60,10 +66,11 @@ func serve(l net.Listener) error {
 
 func handle(conn net.Conn) {
 	defer conn.Close()
-	buf := getBuf(BufSize)
+	buf := getBuf(bufSize)
 	defer putBuf(buf)
 
 	err := conn.SetDeadline(time.Now().Add(Timeout))
+
 	if err != nil {
 		log.Errorf("Error setting deadline on conn: %v", err)
 		return
@@ -77,16 +84,10 @@ func handle(conn net.Conn) {
 	}
 
 	log.Printf("Got %+q", buf[:n])
-	var resp []byte
+	resp, err := parseRequest(buf[:n])
 
-	if bytes.Equal(protocolPolicy, buf[:n]) {
-		log.Printf("Policy request")
-		resp = protocolPolicyResponse
-	} else if bytes.Equal(protocolPing, buf[:n]) {
-		log.Printf("Ping request")
-		resp = protocolPingResponse
-	} else {
-		log.Errorf("Uknown protocol request: %+q", buf[:n])
+	if err != nil {
+		log.Error(err)
 		return
 	}
 
@@ -98,7 +99,22 @@ func handle(conn net.Conn) {
 	}
 }
 
-var bufPool = make(chan []byte, 64)
+func parseRequest(buf []byte) (resp []byte, err error) {
+	switch {
+	case bytes.Equal(protocolPolicy, buf):
+		log.Printf("Policy request")
+		resp = protocolPolicyResponse
+	case bytes.Equal(protocolPing, buf):
+		log.Printf("Ping request")
+		resp = protocolPingResponse
+	default:
+		err = fmt.Errorf("Uknown protocol request: %+q", buf)
+	}
+
+	return
+}
+
+var bufPool = make(chan []byte, poolSize)
 
 func getBuf(size int) []byte {
 	for {
