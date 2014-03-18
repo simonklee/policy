@@ -72,14 +72,14 @@ func handle(conn net.Conn) {
 	err := conn.SetDeadline(time.Now().Add(Timeout))
 
 	if err != nil {
-		log.Errorf("Error setting deadline on conn: %v", err)
+		log.Errorf("Error setting deadline on conn")
 		return
 	}
 
 	n, err := conn.Read(buf)
 
 	if err != nil {
-		log.Errorf("Error reading from conn: %v", err)
+		log.Errorf("Error reading from conn")
 		return
 	}
 
@@ -94,7 +94,7 @@ func handle(conn net.Conn) {
 	n, err = conn.Write(resp)
 
 	if err != nil || n != len(resp) {
-		log.Errorf("Error writing to conn: %v", err)
+		log.Errorf("Error writing to conn")
 		return
 	}
 }
