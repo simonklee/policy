@@ -66,8 +66,6 @@ func serve(l net.Listener) error {
 
 func handle(conn net.Conn) {
 	defer conn.Close()
-	buf := getBuf(bufSize)
-	defer putBuf(buf)
 
 	err := conn.SetDeadline(time.Now().Add(Timeout))
 
@@ -76,10 +74,13 @@ func handle(conn net.Conn) {
 		return
 	}
 
+	buf := getBuf(bufSize)
+	defer putBuf(buf)
+
 	n, err := conn.Read(buf)
 
 	if err != nil {
-		log.Errorf("Error reading from conn")
+		log.Errorf("Error reading from conn: %v", err)
 		return
 	}
 
