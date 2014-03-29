@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/simonz05/policy/third_party/github.com/simonz05/util/log"
 	"github.com/simonz05/util/assert"
-	"github.com/simonz05/util/log"
 )
 
 func init() {
