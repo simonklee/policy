@@ -11,9 +11,9 @@ import (
 	"runtime"
 	"runtime/pprof"
 
+	"git.tideland.biz/goas/monitoring"
 	"github.com/simonz05/policy"
-	"github.com/simonz05/policy/third_party/git.tideland.biz/goas/monitoring"
-	"github.com/simonz05/policy/third_party/github.com/simonz05/util/log"
+	"github.com/simonz05/util/log"
 )
 
 var (

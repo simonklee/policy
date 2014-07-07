@@ -15,8 +15,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/simonz05/policy/third_party/github.com/simonz05/util/log"
-	"github.com/simonz05/policy/third_party/github.com/simonz05/util/sig"
+	"github.com/simonz05/util/log"
+	"github.com/simonz05/util/sig"
 )
 
 const (
