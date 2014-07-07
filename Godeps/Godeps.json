@@ -1,0 +1,41 @@
+{
+	"ImportPath": "github.com/simonz05/policy",
+	"GoVersion": "go1.3",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "git.tideland.biz/goas/errors",
+			"Rev": "7b378208a7639f829a99ef0ed89be242d8100c23"
+		},
+		{
+			"ImportPath": "git.tideland.biz/goas/logger",
+			"Rev": "7b378208a7639f829a99ef0ed89be242d8100c23"
+		},
+		{
+			"ImportPath": "git.tideland.biz/goas/loop",
+			"Rev": "7b378208a7639f829a99ef0ed89be242d8100c23"
+		},
+		{
+			"ImportPath": "git.tideland.biz/goas/monitoring",
+			"Rev": "7b378208a7639f829a99ef0ed89be242d8100c23"
+		},
+		{
+			"ImportPath": "github.com/simonz05/util/assert",
+			"Rev": "a0d061f47dce719a09f47a9e82793c1c8b6fc509"
+		},
+		{
+			"ImportPath": "github.com/simonz05/util/log",
+			"Rev": "a0d061f47dce719a09f47a9e82793c1c8b6fc509"
+		},
+		{
+			"ImportPath": "github.com/simonz05/util/raven",
+			"Rev": "a0d061f47dce719a09f47a9e82793c1c8b6fc509"
+		},
+		{
+			"ImportPath": "github.com/simonz05/util/sig",
+			"Rev": "a0d061f47dce719a09f47a9e82793c1c8b6fc509"
+		}
+	]
+}
