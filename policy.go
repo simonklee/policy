@@ -80,7 +80,7 @@ func handle(conn net.Conn) {
 	n, err := conn.Read(buf)
 
 	if err != nil {
-		log.Errorf("Error reading from conn: %v", err)
+		log.Error("Error reading from conn")
 		return
 	}
 
