@@ -34,7 +34,7 @@ var (
 </cross-domain-policy>`)
 	protocolPing         = []byte("PING")
 	protocolPingResponse = []byte("+OK\r\n")
-	Timeout              = time.Second * 10
+	Timeout              = time.Second * 15
 )
 
 func ListenAndServe(laddr string) error {
