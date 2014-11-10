@@ -109,7 +109,7 @@ func parseRequest(buf []byte) (resp []byte, err error) {
 		log.Printf("Ping request")
 		resp = protocolPingResponse
 	default:
-		err = fmt.Errorf("Uknown protocol request: %+q", buf)
+		err = fmt.Errorf("Invalid protocol request")
 	}
 
 	return
