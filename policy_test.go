@@ -27,13 +27,13 @@ var policyTests = []struct {
 		exp:  protocolPingResponse,
 	},
 	{
+		send: protocolPolicy,
+		exp:  protocolPolicyResponse,
+	},
+	{
 		send:     []byte(""),
 		exp:      []byte(""),
 		failRead: true,
-	},
-	{
-		send: protocolPolicy,
-		exp:  protocolPolicyResponse,
 	},
 	{
 		send:     protocolPolicy[:len(protocolPolicy)-1],
